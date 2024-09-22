@@ -1,5 +1,6 @@
 // controllers/employee.controller.js
 const Employee = require('../models/employeeModel');
+const Leaves = require('../models/LeavesModel');
 
 // Get Employee Profile
 exports.getEmployeeProfile = async (req, res) => {
@@ -33,6 +34,16 @@ exports.getCurrentSalary = async (req, res) => {
 
     const currentSalary = employee.salaryPerDay * (365 - employee.remainingLeaves);
     res.json({ salary: currentSalary });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+
+exports.getAllLeaveRequests = async (req, res) => {
+  try {
+    const leaveRequests = await Leaves.find({employeeId: req.params.employeeId});
+    res.json(leaveRequests);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

@@ -1,3 +1,4 @@
+// models/employee.model.js
 const mongoose = require('mongoose');
 
 const employeeSchema = new mongoose.Schema({
@@ -5,11 +6,12 @@ const employeeSchema = new mongoose.Schema({
   lastName: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   position: { type: String, required: true },
-  salary: { type: Number, required: true },
-  dateOfJoining: { type: Date, required: true },
-  leaves: [{ type: mongoose.Schema.Types.ObjectId, ref: 'LeaveRequest' }],
+  dateOfJoining: { type: Date, default: Date.now },
   totalLeavesTaken: { type: Number, default: 0 },
-  salaryPaid: { type: Boolean, default: false }
+  remainingLeaves: { type: Number, default: 45 }, // Total yearly leaves
+  salaryPerDay: { type: Number, default: 2000 }, // Salary per day
 });
 
-module.exports = mongoose.model('Employee', employeeSchema);
+const Employee = mongoose.model('Employee', employeeSchema);
+
+module.exports  = Employee
